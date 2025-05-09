@@ -174,25 +174,23 @@
           where \(B\) is a Borel set in \(\mathbb{R}^{n}\) (see e.g., [1]).
         </p> 
         <p>
-          Additionally, we can characterize the chain with a function \(q:\mathbb{R}^{n}\times \mathbb{R}^{n} \to [0,\infty] \), 
-          called Markov kernel. This function has the property of define a density function
-          defines a density function with the restriction \(q(x,\cdot) \), i.e.,              
+          A Markov chain can also be described using a <b> Markov kernel </b> \(q:\mathbb{R}^{n}\times \mathbb{R}^{n} \to [0,\infty] \), 
+          which defines a conditional density. For each fixed \(x\), the function \(q(x,\cdot) \), i.e.,              
         </p>         
         <p> 
           $$
-          \int_{\mathbb{R}^{n}}q(x,y)dy = 1,
+          \int_{\mathbb{R}^{n}}q(x,y)dy = 1.
           $$
         </p>
-        <p>and the Markov chain can be calculated as follows: </p>
+        <p>The transition probability is then given by: </p>
         <p> 
           $$
           \mathbb{P}(X_{k+1}\in B\mid x_k) = \int_{B}q(x_k,y)dy.
           $$
         </p>         
         <p>
-          Other essential concept in Markov Chains is given by the 
-          invariant distribution. It consists in a density \(\pi\), 
-          which satisfies the condition: 
+          Another essential concept in the theory of Markov chains is the <b>invariant distribution</b>. A probability density \(\pi\), 
+          is called invariant if it satisfies: 
         </p>
         <p>
           $$
@@ -203,6 +201,9 @@
         <p> <b> Metropolis-Hastings algorithm </b> </p>
         <p> <br> </p>                  
 
+        This condition means that if the current state is distributed according to \(\pi\), 
+        the distribution remains unchanged under the Markov process.
+        
         <p> The idea of MCMC methods consist in construct a Markov Chain such that
           for a large enough step \(k\), the chanin converges to our objective distribution \(p\).
           This idea is equivalent to force our target distribution \(p\) to be the invariant distribution of the chain. 
