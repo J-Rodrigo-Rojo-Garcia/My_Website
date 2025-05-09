@@ -153,10 +153,10 @@
         <p> <br> </p>
         <p> <b> Markov chains </b> </p>
         <p> <br> </p>                  
-        <p> In simple words a Markov chain consists in a countable stochastic process 
-            \( \lbrace X_{k} \rbrace_{k=1}^{\infty} \) with the property of no dependence of the past, for future predictions.
-            This property is called <i>Markov property</i> or <i>memoryless</i> and in countable spaces it can be expressed 
-            mathematically as follows:
+        <p> In simple terms, a Markov chain is a stochastic process 
+            \( \lbrace X_{k} \rbrace_{k=1}^{\infty} \) with the property that the future state depends only on the present state, not on the sequence of events that preceded it. 
+            This characteristic is known as the <i>Markov property</i> or <i>memoryless</i>. In countable spaces it can be expressed 
+            mathematically as:
         </p>
         <p> <br> </p>          
         <p> $$
@@ -164,18 +164,20 @@
             $$
         </p>
         <p> 
-          In \(\mathbb{R}^{n}\), the generalization of a Markov chain is via the formula 
+          In \(\mathbb{R}^{n}\), the generalization of a Markov chain involves conditional probabilities over Borel sets. Specifically:
         </p>  
         <p> $$
             \mathbb{P}(X_{k+1}\in B\mid x_0,x_1,\cdots,x_k) = \mathbb{P}(X_{k+1}\in B\mid x_k),
             $$
         </p>         
         <p>
-          where \(B\) is a Borel set in \(\mathbb{R}^{n}\) (see e.g., [1]). Additionally, we can   
-          characterize the chain with a function \(q:\mathbb{R}^{n}\times \mathbb{R}^{n} \to [0,\infty] \), 
+          where \(B\) is a Borel set in \(\mathbb{R}^{n}\) (see e.g., [1]).
+        </p> 
+        <p>
+          Additionally, we can characterize the chain with a function \(q:\mathbb{R}^{n}\times \mathbb{R}^{n} \to [0,\infty] \), 
           called Markov kernel. This function has the property of define a density function
           defines a density function with the restriction \(q(x,\cdot) \), i.e.,              
-        </p> 
+        </p>         
         <p> 
           $$
           \int_{\mathbb{R}^{n}}q(x,y)dy = 1,
