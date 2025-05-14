@@ -123,7 +123,7 @@
 
         <div class="row gy-4">
 
-          <div class="col-lg-8">
+          <div class="col-lg-12">
             <div class="portfolio-details-slider swiper init-swiper">
 
       <!-- Section Title -->
@@ -131,8 +131,8 @@
         <h2>Banana distribution</h2>
         <p> We begin this section presenting the bidimensional distribution called "Banana" (see e.g., [1]), 
           where its name comes from its particular form. 
-          This distribution does not have a particular algorithm for sample it in terms of the uniform distribution. 
-          Then, we can generate a sample via Random-Walk algorithms.
+          There is no specific algorithm to sample this distribution using the uniform distribution. 
+          Therefore, we generate samples using Random-Walk algorithms.
         </p>
         <p><br/></p>
         <p> The density function is given by the expression:</p>
@@ -142,7 +142,7 @@
         <p> Here, we calculate an ensemble \(\lbrace X_{k} \rbrace_{k=1}^{M}\),
           with the algorithm Random-Walk. The covariance matrix of the RW is \(\Gamma = \gamma^{2} I\), 
           where \(\gamma^{2} = 0.001\) and the size of the chain is \(N = 100000\). 
-          In the next figures we see the progress of the Markov chain and the multidimensional histogram: 
+          The following figures show the progress of the Markov chain and the corresponding multidimensional histogram:
         </p>
           <p>
           <img src="../material/mcmc/multivariate_examples/Ex_1.gif">
@@ -161,8 +161,8 @@
 
         <p> One of the most common functions used for benchmarking in optimization algorithms
             is given by the Rosenbrock function. This function does not define a probability density,
-            nevertheless, it can be scaled with a proportionality constant. In the same way as
-            the Banana distribution, the zone with higer probability is narrow and complicated to sample.
+            however, it can be converted into a probability density by applying a proportionality constant. In the same way as
+            the Banana distribution, the high-probability region is narrow and challenging to sample.
             Here we present a test of Random Walk with a 3D version of the Rosenbrock function (see e.g., [2]).
         </p>
         <p> <br> </p>
@@ -174,8 +174,7 @@
         <p> 
           where \(C_{3}\) is a proportionality constant. The covariance matrix 
           used for RW is \(\Gamma = \gamma^{2} I\), with \(\gamma^{2} = 0.1\) and 
-          an ensemble of size \(N = 1000000\). On the next figures we represent the 
-          progress of the chain on different components and and the histograms.          
+          an ensemble of size \(N = 1000000\). The following figures show the progress of the chain across different components, along with the histograms.
         </p>
         <p><br/></p>
         <p> <b> Markov chain </b> </p>
@@ -203,8 +202,7 @@
         <h2>Rosenbrock 4D distribution</h2>
 
         <p> 
-          Now, we present a 4D version of the Rosenbrock density function [2]. Where the 
-          density function is given by the next expression: 
+          We now present a 4D version of the Rosenbrock density function [2], whose form is given by the following expression: 
         </p>
         <p>
           $$
@@ -213,8 +211,8 @@
         </p>
         <p>and where \(C_4\) is its corresponding proportionality constant. The 
           simulation is performed via RW with \(\Gamma = \gamma^{2} I\), with 
-          \( \gamma^{2} = 0.5 \) and \(N = 1000000\). Here we show the progress of
-          the chain in different components and the multidimensional histograms. 
+          \( \gamma^{2} = 0.5 \) and \(N = 1000000\). The following plots illustrate the progression of the chain across different components, 
+          as well as the multidimensional histograms.
         </p>
         <p><br/></p>
         <p> <b> Markov chain </b> </p>
