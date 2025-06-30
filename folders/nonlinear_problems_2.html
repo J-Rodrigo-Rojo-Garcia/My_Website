@@ -128,97 +128,92 @@
 
 <!-- Section Title -->
 <div class="container section-title" data-aos="fade-up">
-  <h2>Bayesian Nonlinear Inverse Problems</h2>
+  <h2>Bayesian nonlinear inverse problems</h2>
   <p>
-    We now focus on finite-dimensional nonlinear problems, that is, problems where the forward model is given by a function 
-    \(\mathcal{G}:\mathbb{R}^{m} \to \mathbb{R}^{n}\). To begin, we highlight the structure of the posterior distribution, which is given by:
-    $$
-    \pi_{\text{post}}(\theta \mid y) \propto \exp\left(-\frac{1}{2}\Vert \mathcal{G}(\theta) - y \Vert_{\Gamma^{-1}}^{2}\right) \pi_{0}(\theta)
-    $$
-    Unlike the linear case, we no longer have a closed-form solution. Therefore, different techniques must be employed depending on the dimensionality of the parameter and data spaces, as well as the prior information available. In general, there is no single formula or universal approach; however, we can suggest several standard methodologies commonly used to address parameter estimation in this context.
+    Now we focus in finite dimensional nonlinear problems, i.e., those with forward mapping given as a function 
+    \(\mathcal{G}:\mathbb{R}^{m}\to \mathbb{R}^{n}\). Let us remark first the structure of the posterior distribution, which is given as follows:
+    $$\pi_{post}(\theta\mid y) \propto \exp\left(-\frac{1}{2}\Vert \mathcal{G}(\theta)-y \Vert_{\Gamma^{-1}}^{2}\right)\pi_{0}(\theta)$$
+    Now we do not have a closed formula as in the case of linear operators, 
+    then we are need to apply different techniques depending the dimensions of the parameters and the data, or the prior information of the parameters.  
+    In general we do not have a unique formula or methodology, nevertheless, we can suggest here some standard methodolgies for deal with the parameter estimation.
   </p>
   <p><br/></p>
-  <h2>Density Visualization</h2>
   <p>
-  This approach consists of generating a plot of the posterior density over a specific domain. 
-  It is only practical in one- or two-dimensional settings due to visualization limitations. 
-  Despite this, it is highly useful for identifying the maximum a posteriori (MAP) estimate, 
-  detecting multimodality, and gaining insight into the overall uncertainty of the posterior distribution. 
-  However, it does not offer a quantitative method for computing statistical estimators such as the mean, variance, or higher-order moments.
-  </p>
+  <h2>Density visual analysis</h2>
+  It consist only in generate a plot of the posterior density (in an specific domain). 
+  This technique is only valid in 1 and 2 dimensional cases. 
+  It is really useful for locate the MAP of the density, 
+  discover multimodalities, and also for visualize the uncertainty of the density. 
+  Nevertheless, this technique does not provide a quantitative way to estimate the statistical estimators of the posterior distribution 
+  (mean, variance and moments). 
+  <p> 
   <img src="../material/inverse_problems/bayesian_plots_1d_2d_nonlinear.svg" 
   style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
   </p>
 
   </p>
   <p><br/></p>
-<h2>Sampling Techniques</h2>
-<p>
-  As mentioned in other sections, generating samples is one of the most straightforward ways to obtain quantitative information about the posterior distribution. 
-  Here, we can use standard techniques such as rejection sampling or the various forms of MCMC <a href="what_is_random_walk.html" style="color:blue; text-decoration:underline;">(see Random-Walk section)</a>. 
-  This is possible because, in Bayesian statistics, the proportionality constant \(Z(y)\) is not required to define the acceptance probability in the Metropolis-Hastings kernel. 
-  The acceptance ratio is given by:
-</p>
-
-<p>
+  <h2>Sampling techniques</h2>
+  As we have mentioned in other sections, the generation of samples is one of the most straighforward ways to obtain quantitative information of the posterior distribution.
+  Here, we can use the standar techniques as rejection sampling or all the variants of MCMC (Link to the section). 
+  This is possible due in Bayesian statistics the proportionality constant \(Z(y)\) is not necessary for define the acceptance probability of the Metropolis-Hasting Kernel. 
+  The quantity is reduced as follows:
   $$
-    a(\theta,\hat{\theta}) = \min\left(\frac{\exp\left(-\frac{1}{2}\Vert \mathcal{G}(\theta)-y \Vert_{\Gamma^{-1}}^{2}\right)\pi_{0}(\theta)q(\hat{\theta},\theta)}{\exp\left(-\frac{1}{2}\Vert \mathcal{G}(\hat{\theta})-y \Vert_{\Gamma^{-1}}^{2}\right)\pi_{0}(\hat{\theta})q(\theta,\hat{\theta})},1\right),
-  $$
-</p>
+    a(\theta,\hat{\theta}) = \text{min}\left(\frac{\exp\left(-\frac{1}{2}\Vert \mathcal{G}(\theta)-y \Vert_{\Gamma^{-1}}^{2}\right)\pi_{0}(\theta)q(\hat{\theta},\theta)}{\exp\left(-\frac{1}{2}\Vert \mathcal{G}(\hat{\theta})-y \Vert_{\Gamma^{-1}}^{2}\right)\pi_{0}(\hat{\theta})q(\theta,\hat{\theta})},1\right),
+  $$ 
+  where an strategical election of \(\pi_{0}\) (as an exponential family density or uniform) can reduce the expression.
+  </p>
+  <p><br/></p>
+  <p>
+    <b>Advantages</b>
+  </p>
+  <p><br/></p>
+  <p>
+    1) This technique is straighforward and there exist different sampling methods.
+  </p>  
+  <p><br/></p>
+  <p>
+    2) Is possible to estimate numerically the statistical estimators.
+  </p>
+    <p><br/></p>  
+  <p>
+    3) It can provide a visual analysis of the density via the histograms.
+  </p> 
+    <p><br/></p>
+  <p>
+    4) If the plot of forward mapping is a curve, we have automatically all the evaluations of the forward mapping for plot the envelopes of the model.
+  </p> 
 
-<p>
-  where a strategic choice of \(\pi_{0}\) (such as an exponential family density or uniform distribution) can simplify the expression.
-</p>
-
-<p><br/></p>
-
-<p><b>Advantages</b></p>
-<p><br/></p>
-
-<p>
-  1) This technique is straightforward, and there are many established sampling methods available.
-</p>
-<p><br/></p>
-<p>
-  2) It is possible to estimate statistical quantities (mean, variance, moments) numerically.
-</p>
-<p><br/></p>
-<p>
-  3) It enables visual analysis of the posterior through histograms.
-</p>
-<p><br/></p>
-<p>
-  4) If the forward map produces a curve, all evaluations can be reused to plot confidence envelopes of the model.
-</p>
-
-<p><br/></p>
-
-<p><b>Disadvantages</b></p>
-<p><br/></p>
-
-<p>
-  1) In high-dimensional parameter spaces, convergence to the target distribution can be extremely slow. 
-  It may also be difficult to determine the appropriate burn-in period, making the number of required samples prohibitively large to ensure convergence.
-</p>
-<p><br/></p>
-<p>
-  2) Some forward mappings are computationally expensive, even in low-dimensional spaces. 
-  This leads to long evaluation times for MCMC methods. Moreover, this issue cannot be addressed by parallel computing techniques due to the strong serial dependence inherent in Markov chains.
-</p>
-<p><br/></p>
-<p>
-  3) Some methods may struggle to generate samples from multimodal distributions. Once the chain is near one mode, it may take a long time to transition to another MAP estimate.
-</p>
-<p><br/></p>
-<p>
-  4) Even when the distribution is not multimodal, the geometry of the posterior may be irregular 
-  <a href="mcmc_multivariable_examples.html" style="color:blue; text-decoration:underline;">(see Rosenbrock example)</a>. 
-  In such cases, adaptive MCMC methods are recommended.
-</p>
-<p><br/></p>
-<p>
-  Even though several disadvantages have been noted, this remains one of the most straightforward and widely used techniques for analyzing posterior distributions.
-</p>
+  <p><br/></p>
+  <p>
+    <b>Disadvantages</b>
+  </p>
+  <p><br/></p>
+  <p>
+    1) In high-dimensional parameter spaces, the convergence to the target distribution can be extremly slow
+    and it could be complicated to estimate the burnin time for truncate the chain. As a consequence, the number of samples could be 
+    prohibitively high in order to ensure the convergence.
+  </p>
+    <p><br/></p>  
+  <p>
+    2) Some forward mappings are high computationally expensive, even in small parameter dimensional spaces. 
+    This issue produces a long time evaluation period in the MCMC methods. This problem cannot be solved using parallel computing techniques, 
+    the reason is the strong serial dependence in the Markov chain process. 
+  </p>  
+    <p><br/></p>
+  <p>
+    3) Some methods can have difficulties for generate samples of multimodal distributions. Once the Markov chain is near to a modal point, 
+    the required time for move to another MAP could be long. 
+  </p> 
+    <p><br/></p>
+  <p>
+    4) Some distributions could not have the previosly mentioned isssues, nevertheless, 
+    the geometry of the posterior density could have an strange form as ilustrated in the example (Link to Banana). Here, it is convenient to look for adaptative MCMC methods. 
+  </p> 
+  <p><br/></p>
+  <p>
+    Even, that we have mentioned several disadvantages this is one of the most straightforward ways to analyse a posterior density. 
+  </p>
   <p> 
   <img src="../material/inverse_problems/histograms_2.svg" 
   style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
@@ -226,94 +221,60 @@
 
   <p><br/></p>
 
-<h2>MAP Estimation</h2>
+  <h2>MAP estimation</h2>
 
-<p>
-  Here, the inversion problem is reduced to estimating the MAP (Maximum a Posteriori) point:
-  $$
-    \theta_{\text{MAP}} = \arg\max_{\theta} \pi(\theta \mid y),
-  $$
-  which is equivalent to the following minimization problem:
-  $$
-    \theta_{\text{MAP}} = \arg\min_{\theta} \left( \Vert y - \mathcal{G}(\theta) \Vert_{\Gamma^{-1}}^2 - \log(\pi_{0}(\theta)) \right),
-    \quad \theta \in \mathrm{Supp}(\pi_{0}).
-  $$    
-</p>
+  <p>
+    Here the inversion is reduced to the estimation of the MAP
+    $$
+      \theta_{MAP} = \arg\max_{\theta} \pi(\theta \mid y),
+    $$
+    which is given by the minimization problem
+      $$
+      \theta_{\text{MAP}} = \arg\min_{\theta} \left( \Vert y - \mathcal{G}(\theta) \Vert_{\Gamma^{-1}}^2 + \log(\pi_{0}(\theta)) \right),
+      \quad \theta\in\mathrm{Supp}(\pi_{0}).
+      $$    
+    </p>
 
-<p>
-  This method is particularly useful in high-dimensional parameter spaces, as many optimization libraries in Python and MATLAB can efficiently solve such minimization problems.
-  Nevertheless, it does not provide a way to quantify uncertainty in the model. 
-  Furthermore, estimating the MAP can become challenging in the presence of multimodal posterior distributions.
-</p>
+    <p>This method is useful in high dimensional spaces, due some optimization libraries in Python and Matlab can solve highly efficient the minimization problem.
+      Nevertheless, it does not provide a way to estimate the uncertainty in the model, 
+      even more, the MAP could be difficult to estimate for multimodal distributions.  
+    </p>
   <p><br/></p>
-<h2>Laplace Approximation</h2>
-<p>
-  This method consists of constructing a local approximation of a unimodal posterior distribution using a Gaussian distribution. 
-  In this context, we can apply the formula used for linear problems 
-  <a href="linear_problems.html" style="color:blue; text-decoration:underline;">(see linear case)</a>. 
-  To do so, we require a linear approximation of the forward mapping, 
-  \(\mathcal{G}_{L}\theta \approx \mathcal{G}(\theta)\). 
-  Then, given a prior covariance matrix \(C_{0}\), we can compute the posterior covariance matrix \(C_{L,\text{post}}\) as:
-</p>
-<p>
-  $$
-  C_{L,\text{post}} = \left(\mathcal{G}_{L}^{*}\Gamma^{-1}\mathcal{G}_{L} + C_{0}^{-1}\right)^{-1},
-  $$
-</p>
-
-<p>
-  and the approximated posterior distribution is given by:
-  $$
-  \pi(\theta \mid y) \approx \mathcal{N}(\theta_{\text{MAP}}, C_{L,\text{post}}).
-  $$
-</p>
-
-<p>
-  The approximation works well when the forward mapping is smooth. 
-  However, it performs poorly when the forward mapping is highly nonlinear (e.g., regions with steep gradients or almost discontinuities), 
-  or more generally, when the posterior distribution deviates significantly from a Gaussian shape.
-</p>
-<p>
-<img src="../material/inverse_problems/laplace.svg" 
+  <h2>Laplace approximation</h2>
+  <p>
+    This method consists in construct a local approximation of a unimodal posterior distribution with a Gaussian distribution. 
+    Here, we can use the formula for linear problems (Link). For it, we need a linear approximation of the forward mapping \(\mathcal{G}_{L}\theta \approx \mathcal{G}(\theta)\). 
+    Then, with a given prior covariance matrix \(C_{0}\), we can construct the posterior covariance matrix \(C_{L,post}\) as follows:
+    $$
+    C_{L,post} = \left(\mathcal{G}_{L}^{*}\Gamma^{-1}\mathcal{G}_{L} + C_{0}^{-1}\right)^{-1}, 
+    $$
+    and finally, the approximated posterior is given by the expression: 
+    $$
+    \pi(\theta\mid y) \approx \mathcal{N}(\theta_{MAP},C_{L,post}).
+    $$
+  </p>
+  <p> The approximation works wells for a smooth forward mapping, 
+    however, the appoximation works poorly when the forward mapping is strongly nonlinear (high gradient zones or almost discontinious),
+    or in general when the posterior distribution is poorly similar to a Gaussian distribution.     
+  <p> 
+  <img src="../material/inverse_problems/laplace.svg" 
   style="max-width: 400px; width: 100%; height: auto; display: block; margin: 0 auto;">
+  </p>
+
   </p>
 
   <p><br/></p>
 
-        <h2>Bibliography</h2>
-        <p><br/></p>
-        <p>
-          [1] Aster, R. C., Borchers, B., & Thurber, C. H. (2018). Parameter estimation and inverse problems. Elsevier.
-        </p>
-        <p><br/></p>
-        <p>
-          [2] Gelman, A., Carlin, J. B., Stern, H. S., & Rubin, D. B. (1995). Bayesian data analysis. Chapman and Hall/CRC.
-        </p>
-        <p><br/></p>
-        <p>
-          [3] Isakov, V. (2006). Inverse problems for partial differential equations (Vol. 127). New York: Springer.
-        </p>
-        <p><br/></p>
-        <p>
-          [4] Kaipio, J., & Somersalo, E. (2006). Statistical and computational inverse problems (Vol. 160). Springer Science & Business Media.
-        </p>
-        <p><br/></p>        
-        <p>
-          [5] Kirsch, A. (2011). An introduction to the mathematical theory of inverse problems (Vol. 120). New York: Springer.
-        </p>
-        <p><br/></p>
-        <p>
-          [6] Sanz-Alonso, D., Stuart, A. M., & Taeb, A. (2018). 
-          Inverse problems and data assimilation. arXiv preprint arXiv:1810.06191.
-        </p>
-        <p><br/></p>
-        <p>
-          [7] Tarantola, A. (2005). Inverse problem theory and methods for model parameter estimation. Society for industrial and applied mathematics.
-        </p>
-        <p><br/></p>
-        <p>
-          [8] Vogel, C. R. (2002). Computational methods for inverse problems. Society for Industrial and Applied Mathematics.
-        </p>
+  <h2>Bibliography</h2>
+  <p><br/></p>
+  <p>
+    [1] Kaipio, J., & Somersalo, E. (2006). Statistical and Computational Inverse Problems (Vol. 160). Springer.
+  </p>
+  <p><br/></p>
+  <p>
+    [2] Sanz-Alonso, D., Stuart, A. M., & Taeb, A. (2018). 
+    Inverse Problems and Data Assimilation. arXiv preprint arXiv:1810.06191.
+  </p>
   <p><br/></p>
 </div><!-- End Section Title -->
 
