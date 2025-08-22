@@ -106,11 +106,11 @@
     <!-- Page Title -->
     <div class="page-title dark-background">
       <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">What is an inverse problem?</h1>
+        <h1 class="mb-2 mb-lg-0">SIR</h1>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="../index.html">Home</a></li>
-            <li class="current">What is an inverse problem?</li>
+            <li class="current">SIR</li>
           </ol>
         </nav>
       </div>
@@ -128,76 +128,198 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>What is an inverse problem?</h2>
-        <p> Given a function \(f:\mathbb{R}^{d}\rightarrow \mathbb{R}\), and a probability density \(\rho(x)\) in \(\mathbb{R}^{d}.\) 
-            An expectation with respect to \(\rho\) is calculated as follows:
-            $$\mathbb{E}^{\rho}[f] := \int_{\mathbb{R}^{d}}f(x)\rho(x)dx.$$
-            Sometimes is difficult or even impossible to express the solution of this integral with an analytical expression, then,
-            we need to estimate a numerical solution. A classical numerical approximation is given by quadrature rules 
-            (see e.g., [4]). 
-            Nervertheless, this method in unfeasible when the dimension \( d \) is high. 
-            The reason is the high number of nodes needed for approximate the integral with a reasonable error. 
-            Furthermore, the rate of convergence is dependent of the dimension and limitates the convergence to zero of the error. 
-            This phenomenon is known as  <i> the curse of dimensionality </i> [1]. 
+        <h2>SIR epidemiological model</h2>
+        <p> The SIR model is a classic example in biomathematics, used in the modelling of epidemies. 
+          This model was proposed by Kendall [4] and it has been a classic in mathematical modelling (see e.g., [1]), and it consists in a system of ODEs given by the next equations:
+          $$
+          \begin{align*}
+          \frac{dS}{dt} &= -\frac{\beta}{N} IS, \\
+          \frac{dI}{dt} &= \frac{\beta}{N} IS - \gamma I, \\
+          \frac{dR}{dt} &= \gamma I,
+          \end{align*}
+          $$
+          where \(S\) is the number of susceptible people, \(I\) is the number of infected people and \(R\) the number of recovered people. 
+          Here the this number of people comes from a total population \(N\). As a consequence, the variables follow the relation \(S(t) + I(t) + R(t) = N\). 
+          This model takes as a main assumption that for a high population, 
+          the variables are almost continuous.     
         </p>
         <p><br/></p>
         <p>
-            Another approach based in statistical approximation is given by Monte Carlo methods. 
-            This technique consists in calculate an ensemble \(\lbrace X_{k} \rbrace_{k=1}^{M} \) with distribution \(X_{k} \sim \rho \) 
-            and where each sample is i.i.d. Then, the expectation is approximated with an average 
-            as follows:
-            $$\mathbb{E}^{\rho}[f] \approx \frac{1}{M}\sum_{k=1}^{M}f(X_{k}).$$
+          The model depends of two parameters \(\beta\) and \(\gamma\) which are essential for simulate the model, and usually unknown. 
+          Then, the future predictions depend of an inversion process for estimate those parameters. Is here, when Bayesian paradigm can be used for this task.  
+          In general the data is the number of sick people \(I(t_k)\) at fixed times \(\lbrace t_{k} \rbrace_{k=1}^{N_{I}} \) 
+          (and sometimes also \(R(t_{k})\)). Is here when Bayesian inversion enters in action. 
+        </p>
+        <p><br/></p>
+        <h2>Study case</h2>
+        <p><br/></p>
+        <p> In general, the study of this problem via Bayesian inversion is not new, and it has been explored in different contexts 
+          (see e.g., [5,6,8,10]). Here, <b>we will not do anything new</b>. We will solve a problem proposing a 
+          a prior distribution for each parameter and estimating a sample with MCMC (Random Walk). 
+          For this purpose, we use real data extracted from the British Medical Journal [2], where, 
+          in the Epidemiology section, a case of influenza in a boarding school is presented. 
+          The data consist of the number of infected individuals recorded each day during a monitoring period of 15 days. 
+          These data are presented and plotted in the following table and figure.
         </p>
         <p>
-          A Monte Carlo approximation has the virtue of be a method independent of the dimension.
-          And the error (rate of convergence) for bounded functions in the unit ball is given by the expression:
-           $$ 
-          \sup _{|f|_{\infty} \leq 1}\left(\mathbb{E}\left[\left(\int_{\mathbb{R}^{d}}f(x)\rho(x)dx-\frac{1}{M}\sum_{k=1}^{M}f(X_{k})\right)^2\right]\right)^{1 / 2}
-          \leq M^{-1/2}, 
+        $$
+        \begin{array}{c|ccccccccccccccc}
+        t & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
+        \hline
+        y & 1 & 3 & 6 & 25 & 73 & 222 & 294 & 258 & 237 & 191 & 125 & 69 & 27 & 11 & 4
+        \end{array}
+        $$
+        </p>
+        <p>
+        <img src="../material/inverse_problems/Data_SIR.svg" 
+        style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p><br/></p>
+        <p> 
+          This problem has been used as a Benchmark in different studies (see e.g., [1]), 
+          and also reviewed in Bayesian context (see e.g., [3,9]). 
+          Where the estimation of parameters \(\beta\) and \(\gamma\) are essential for forecasting and the uncertainty quantification of the system. 
+          Let us remark that the noise level \(\sigma\) is also unknown. For this reason, we need to estimate this parameter. 
+          One way to do it is include it in the Bayesian inversion as follows:
+          $$
+            \theta = (\beta,\gamma,\sigma).
           $$
         </p>
+        <p><br/></p>
+        <p> 
+          As a prior information, we know that all the parameters are positive. 
+          But we do not know (in principle) how fast the scale of the parameters can change. 
+          Then, we propose a log-normal distribution for the parameters, i.e., 
+          $$
+            \hat{\theta}_{k} := \log(\theta_{k}) \sim \mathcal{N}(m_{k},\sigma_{k}^{2}), 
+          $$
+          and the likelihood follows the proportionality relation
+          $$
+            \begin{split}
+            \pi(\hat{\theta}_{1},\hat{\theta}_{2},\hat{\theta}_{3}\mid y) &\propto \pi(\hat{\theta}\mid y)\pi_{0}(\hat{\theta}_{1})\pi_{0}(\hat{\theta}_{2})\pi_{0}(\hat{\theta}_{3}) \\ 
+            &\propto \exp\left(-\frac{\Vert \mathcal{G}(\exp(\hat{\theta}_1),\exp(\hat{\theta}_2)) - y \Vert_{2}^{2}}{2\exp(\hat{\theta}_3)^{2}} - 
+            \frac{\Vert \hat{\theta}_1 - m_{1}\Vert_{2}^{2}}{2\sigma_{1}^{2}} - 
+            \frac{\Vert \hat{\theta}_2 - m_{2}\Vert_{2}^{2}}{2\sigma_{2}^{2}} - 
+            \frac{\Vert \hat{\theta}_3 - m_{3}\Vert_{2}^{2}}{2\sigma_{3}^{2}}             
+            \right)/\exp(\theta_{3}).
+            \end{split}  
+          $$
+        Here we selected the prior hyper-parameters as \(m_1 = m_2 = -1\), \(m_3 = 0\) 
+        and the standard deviations as \(\sigma_1 = \sigma_2 = \sigma_3 = 1\). 
+        In the case of the covariance matrix of the Random-Walk, we choose \(\Gamma_{RW} = \mathrm{diag}(0.1^{2},0.1^{2},1)\).
+        The total number of samples for the MCMC simulation is 110000.   
+        </p>
+        <p><br/></p>
+        <h2>Results</h2>
+        <p><br/></p>
         <p>
-          and in general for bounded functions, the rate of convergence is in the order \(\mathcal{O}(M^{-1/2})\) (see e.g., [5]).
+          Once the MCMC method runned, we can can see in the next figure how the traces rapidly converge to the posterior distribution. 
+          Here we have a small burn-in effect, for that reason, we have decided to truncate the first 10000 samples of the ensemble.
+        </p>
+        <p>
+        <img src="../material/inverse_problems/traces_SIR.svg" 
+        style="max-width: 1200px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p>
+          Then the final ensemble has a size of 100000 samples, and the histograms are presented in the next figure. 
+        </p>
+        <p>
+        <img src="../material/inverse_problems/chains_2_SIR.svg" 
+        style="max-width: 1200px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p>
+          Let us notice how histograms of the parameters \(\beta\) and \(\gamma\) are centered, but the standard deviation of the noise is biased. 
+          At the same time, graphically we can see few uncertainty on the first two parameters, while in the third one the uncertainty looks considerable higher.
+          In order to quantify the uncertainty we have estimated the mean and the standard deviation of all the parameters. They are showed in the next table         
+        </p>
+        <p> 
+        $$  
+        \begin{array}{l|ccc}
+        & \beta & \gamma & \sigma \\
+        \hline
+        \text{Mean} & 1.45710447 & 0.42829189 & 43.32001146 \\
+        \text{Standard deviation} & 0.07247109 & 0.07109067 & 7.04792307 \\
+        \end{array}
+        $$
+        </p>
+        <p>where we can corroborate a high a uncertainty in the third parameter.</p>
+        <p><br/></p>
+        <p>
+          Additionally, with all the resultant evaluations \(\lbrace \mathcal{G}(\theta_{k})\rbrace_{k=1}^{100000}\) of the MCMC process, 
+          we have estimated the percentils until 95% of the model evaluations.
+          These results are presented in the next figures.        
+        </p>
+        <p>
+        <img src="../material/inverse_problems/I_SIR.svg" 
+        style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p>
+        <img src="../material/inverse_problems/R_SIR.svg" 
+        style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p>
+        <img src="../material/inverse_problems/S_SIR.svg" 
+        style="max-width: 600px; width: 100%; height: auto; display: block; margin: 0 auto;">
+        </p>
+        <p>
+          Let us notice how the predicted model constructed with the mean values fixes nicely the data.
+          Moreover, the data is inside the percentile envelopes. This means that the model is good calibrated. 
+          On the other hand, we can see a clasical behaviour for the variables \(R\) and \(S\). 
+          Nevertheless, we do not have clear data in the mentioned medical journal to corroborate this behaviour.        
+        </p>
+        <p><br/></p>
+        <h2>Conclusion</h2>
+        <p>
+        In general we can conclude that SIR model is good as a first approach for modelling an epidemiological phenomena.
+        However, nowadays there exist more sophisticated models (see e.g. [7]).
+        </p>
+
+        <p><br/></p>
+        <h2>Bibliography</h2>
+        <p><br/></p>        
+        <p>
+          [1] Diekmann, O., & Heesterbeek, J. A. P. (2000). Mathematical epidemiology of infectious diseases: model building, analysis and interpretation (Vol. 5). John Wiley & Sons.
         </p>
         <p><br/></p>
         <p>
-          Even when the rate of convergence of this method is slow, it is still considered a powerful tool for estimate integrals,
-          due its inmmunity respect to the dimension. Monte Carlo integration has abundant applications in areas as 
-          financial mathematics, stochastic differential equations, computational physics, statistical mechanics, and uncertainty quantification theory (see e.g., [2,3,6]).
-        </p>
-        <p><br/></p>
-        <p> <b> Bibliography </b>  </p>
-        <p><br/></p>
-        <p>
-          [1] Bellman, R. (1957). Dynamic Programming. Science, 153, 34 - 37.
-        </p>
-        <p><br/></p>
-        <p>
-          [2] Binder, Kurt & Heermann, Dieter. (2019). Monte Carlo Simulation in
-           Statistical Physics: An Introduction. 10.1007/978-3-030-10758-1.
+          [2] Influenza in a boarding school, 1978 Influenza in a boarding school. British Medical Journal
+          1978;4:587, 4 March 1978.
         </p>
         <p><br/></p>        
         <p>
-          [3] Boyle, Phelim, Mark Broadie, and Paul Glasserman. 
-          "Monte Carlo methods for security pricing." Journal of economic dynamics 
-          and control 21.8-9 (1997): 1267-1321.
+          [3] Kalachev, L., Landguth, E. L., & Graham, J. (2023). Revisiting classical SIR modelling in light of the COVID-19 pandemic. 
+          Infectious Disease Modelling, 8(1), 72-83.
+        </p>
+        <p><br/></p>        
+        <p>
+          [4] Kendall, D. G. (1956, January). Deterministic and stochastic epidemics in closed populations. In Proceedings of the third Berkeley symposium on mathematical statistics and probability (Vol. 4, pp. 149-165). Berkeley, CA, USA: University of California Press.
         </p>
         <p><br/></p>
         <p>
-          [4] Han, W., & Atkinson, K. E. (2009). Theoretical numerical analysis: A functional analysis framework. Springer New York.
+          [5] Kypraios, T. (2007). Efficient Bayesian inference for partially observed stochastic epidemics and a new class of semi-parametric time series models. Lancaster University (United Kingdom).
         </p>
         <p><br/></p>
         <p>
-          [5] Sanz-Alonso, D., Stuart, A. M., & Taeb, A. (2018). 
-          Inverse problems and data assimilation. arXiv preprint arXiv:1810.06191.
+          [6] Kypraios, T., Neal, P., & Prangle, D. (2017). A tutorial introduction to Bayesian inference for stochastic epidemic models using Approximate Bayesian Computation. Mathematical biosciences, 287, 42-53.                
         </p>
         <p><br/></p>
         <p>
-          [6] Särkkä, S., & Solin, A. (2019). Applied stochastic differential equations (Vol. 10). 
-          Cambridge University Press.
+          [7] Martcheva, M. (2015). An introduction to mathematical epidemiology (Vol. 61, pp. 9-31). New York: Springer.
         </p>
         <p><br/></p>
-
+        <p>
+          [8] O'Neill, P. D. (2002). A tutorial introduction to Bayesian inference for stochastic epidemic models using Markov chain Monte Carlo methods. Mathematical biosciences, 180(1-2), 103-114.
+        </p>
+        <p><br/></p>        
+        <p>
+          [9] Raissi, M., Ramezani, N., & Seshaiyer, P. (2019). On parameter estimation approaches for predicting disease transmission through optimization, deep learning and statistical inference methods. 
+          Letters in biomathematics, 6(2), 1-26.
+        </p>
+        <p><br/></p>
+        <p>
+          [10] Solonen, A., Haario, H., Tchuenche, J. M., & Rwezaura, H. (2013). Studying the identifiability of epidemiological models using MCMC. International Journal of Biomathematics, 6(02), 1350008.
+        </p>
+        <p><br/></p>                
       </div><!-- End Section Title -->
 
               <div class="swiper-pagination"></div>
